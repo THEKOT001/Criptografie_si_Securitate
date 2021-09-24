@@ -242,6 +242,7 @@ public class HelloApplication extends Application {
             }
 
             //cauta cum sa imparti gui in doua parti ca sa poti alege auditurile care sunt in program
+            //adauga selectfile ca metoda aoarte nu lista cu for
 
 
 
