@@ -3,6 +3,9 @@ package com.example.securityauditprogram;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -27,6 +30,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+//import java.util.AuditParser;
 
 import java.io.IOException;
 
@@ -130,8 +134,15 @@ public class HelloApplication extends Application {
             returnString = returnString.replace("<$replace_later>", "\n");
             return returnString;
         }
+        ArrayList<String> listt = new ArrayList<>();
 
-        private void saveFileCopy(String path, Stage stage) {
+    public ArrayList<String> getListt() {
+        String info = "file";
+        parsePolicyInfo(info);
+        return listt;
+    }
+
+    private void saveFileCopy(String path, Stage stage) {
             try {
                 String fileInitialPath = path;
                 path = getSubstringBetweenElements("policies", ".audit", path).get(0);
@@ -171,6 +182,28 @@ public class HelloApplication extends Application {
         private void restartApp(Stage stage) {
             getStageData(stage);
         }
+
+        private void selectFileForOptions (String path ,Stage stage,Text name){
+
+
+                String fileInitialPath = path;
+                path = getSubstringBetweenElements("policies", ".audit", path).get(0);
+//                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy_MM_dd_HH_mm_ss");
+//                LocalDateTime now = LocalDateTime.now();
+//                String newFileName = "src/main/resources/policies/" + path + "_copy_" + dtf.format(now) + ".json";
+//                File myObj = new File(newFileName);
+                Stage secondStage = new Stage();
+                secondStage.setScene(new Scene(new HBox(4, new Label("Second window"))));
+
+
+
+                secondStage.show();
+
+
+
+        }
+
+
 
         private void getStageData(Stage stage) {
             ScrollPane scrollPane = new ScrollPane();
@@ -228,9 +261,10 @@ public class HelloApplication extends Application {
                 Button selectFile = new Button("Select File");
                 selectFile.setLayoutX(235);
                 selectFile.setLayoutY(((i + 1) * 40) - 5);
-                int finalI = i;
                 selectFile.setOnAction(value -> {
-                    selectedFiles.add(files.get(finalI));
+
+                    selectFileForOptions(policyUrl.getPath(), stage, policyContent.setText(parsePolicyInfo(showPolicyDetails(policyUrl)) );
+
                 });
                 rootGroup.getChildren().add(selectFile);
 
@@ -240,6 +274,8 @@ public class HelloApplication extends Application {
                 policyFile.setWrappingWidth(700);
                 rootGroup.getChildren().add(policyFile);
             }
+
+
 
             //cauta cum sa imparti gui in doua parti ca sa poti alege auditurile care sunt in program
             //adauga selectfile ca metoda aoarte nu lista cu for
@@ -274,5 +310,8 @@ public class HelloApplication extends Application {
                     new Scene(scrollPane, 1440, 700, Color.BEIGE);
             stage.setScene(scene);
             stage.show();
+
         }
+
+
     }
